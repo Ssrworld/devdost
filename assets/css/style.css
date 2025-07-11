@@ -1193,3 +1193,63 @@ a.developer-card-link {
 #notification-list li a { color: var(--text-dark); }
 #notification-list li:last-child { border-bottom: none; }
 #notification-list li.unread { background-color: var(--secondary-color); }
+/* =================================
+   Dropdown Menu Styles
+   ================================= */
+
+/* ड्रॉपडाउन के कंटेनर के लिए */
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+/* ड्रॉपडाउन मेनू (जो छिपा रहता है) */
+.dropdown-menu {
+    display: none; /* डिफ़ॉल्ट रूप से छिपा हुआ */
+    position: absolute;
+    right: 0; /* इसे दाईं ओर अलाइन करें */
+    background-color: #ffffff; /* सफेद बैकग्राउंड */
+    min-width: 200px; /* न्यूनतम चौड़ाई */
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.15); /* थोड़ा शैडो */
+    z-index: 100; /* यह सुनिश्चित करता है कि यह दूसरे कंटेंट के ऊपर आए */
+    list-style: none; /* बुलेट पॉइंट्स हटाएं */
+    padding: 10px 0;
+    border-radius: 8px;
+    margin-top: 10px; /* बटन से थोड़ी दूरी */
+}
+
+/* जब ड्रॉपडाउन दिखाना हो */
+.dropdown-menu.show {
+    display: block;
+}
+
+/* ड्रॉपडाउन के अंदर के लिंक्स */
+.dropdown-menu li a {
+    color: #333; /* टेक्स्ट का रंग */
+    padding: 12px 20px;
+    text-decoration: none;
+    display: block; /* पूरे एरिया को क्लिक करने योग्य बनाएं */
+    text-align: left;
+    white-space: nowrap;
+}
+
+/* लिंक पर होवर करने पर स्टाइल */
+.dropdown-menu li a:hover {
+    background-color: #f5f5f5;
+}
+
+/* नोटिफिकेशन ड्रॉपडाउन के लिए भी यही स्टाइल काम करेगा */
+.notification-dropdown .dropdown-content {
+    display: none;
+    position: absolute;
+    right: 0;
+    background-color: #ffffff;
+    min-width: 300px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.15);
+    z-index: 100;
+    border-radius: 8px;
+    margin-top: 10px;
+}
+.notification-dropdown .dropdown-content.show {
+    display: block;
+}

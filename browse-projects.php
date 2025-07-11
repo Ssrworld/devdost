@@ -6,9 +6,14 @@ session_start();
 require_once __DIR__ . '/bootstrap.php';
 use App\Models\Project;
 
-// Eloquent का उपयोग करके सभी 'open' प्रोजेक्ट्स को सबसे नए से पुराने क्रम में लाएं
-// with('user') का उपयोग करके हम हर प्रोजेक्ट के साथ उसके क्लाइंट की जानकारी (username) भी ले आएंगे
-$projects = Project::where('status', 'open')->with('user')->latest()->get();
+// >> यहाँ मुख्य बदलाव है <<
+// Eloquent का उपयोग करके सभी 'open' और 'project' टाइप के प्रोजेक्ट्स को लाएं
+// with('user') का उपयोग करके हम हर प्रोजेक्ट के साथ उसके क्लाइंट की जानकारी भी ले आएंगे
+$projects = Project::where('status', 'open')
+                   ->where('post_type', 'project') // <-- यह नई कंडीशन है
+                   ->with('user')
+                   ->latest()
+                   ->get();
 
 // हेडर को include करें
 include_once __DIR__ . '/includes/header.php';
@@ -17,21 +22,21 @@ include_once __DIR__ . '/includes/header.php';
 <main class="page-container">
     <div class="container">
         <div class="page-header">
-            <h1>Browse Available Projects</h1>
+            <h1>Browse Freelance Projects</h1>
             <p>Find the next exciting project to work on. Here are the latest opportunities.</p>
         </div>
 
         <div class="project-list">
             <?php if ($projects->isEmpty()): ?>
                 <div class="alert alert-info">
-                    <p>No projects available at the moment. Please check back later!</p>
+                    <p>No freelance projects available at the moment. Please check back later!</p>
                 </div>
             <?php else: ?>
                 <?php foreach ($projects as $project): ?>
                     <div class="project-card">
                         <div class="project-card-header">
                             <h3 class="project-title"><a href="project-details.php?id=<?php echo $project->id; ?>"><?php echo htmlspecialchars($project->title); ?></a></h3>
-                            <span class="project-budget">Budget: ₹<?php echo number_format($project->budget, 2); ?></span>
+                            <span class="project-budget">Budget: ₹<?php echo number_format((float)$project->budget, 2); ?></span>
                         </div>
                         <div class="project-card-body">
                             <p class="project-description">

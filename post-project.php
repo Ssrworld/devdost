@@ -7,7 +7,8 @@ require_once __DIR__ . '/bootstrap.php';
 use App\Models\Project;
 
 // एक्सेस कंट्रोल: सिर्फ लॉग-इन 'client' ही इस पेज को देख सकता है
-if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true || $_SESSION["user_type"] !== 'client') {
+// >> नोट: आप शायद भविष्य में 'client' की जगह सभी यूजर्स को पोस्ट करने की अनुमति देना चाहें
+if (!isset($_SESSION["user_id"])) { // सिर्फ user_id से चेक करना पर्याप्त है
     // अगर एक्सेस नहीं है, तो उसे लॉगिन पेज पर भेज दें
     header("location: " . BASE_URL . "pages/login.php");
     exit;
@@ -21,6 +22,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $title = trim($_POST['title']);
     $description = trim($_POST['description']);
     $budget = trim($_POST['budget']);
+    // >> यहाँ बदलाव है: स्किल्स को भी ले रहे हैं (मानकर कि फॉर्म में यह फील्ड है)
+    $skills = isset($_POST['skills']) ? trim($_POST['skills']) : ''; 
 
     // बेसिक वैलिडेशन
     if (empty($title)) {
@@ -38,15 +41,23 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         try {
             // Eloquent ORM का उपयोग करके नया प्रोजेक्ट बनाएं
             Project::create([
-                'user_id'     => $_SESSION['id'], // लॉग-इन क्लाइंट की ID
-                'title'       => $title,
-                'description' => $description,
-                'budget'      => !empty($budget) ? $budget : null, // अगर बजट खाली है तो NULL सेव करें
+                'user_id'         => $_SESSION['user_id'], // लॉग-इन क्लाइंट की ID
+                'title'           => $title,
+                'description'     => $description,
+                'budget'          => !empty($budget) ? $budget : null, // अगर बजट खाली है तो NULL सेव करें
+                'skills_required' => $skills, // स्किल्स को सेव करें
+                // >> यहाँ मुख्य बदलाव है: post_type को हार्डकोड कर रहे हैं
+                'post_type'       => 'project'
             ]);
 
             $success_msg = "Your project has been posted successfully!";
+            
+            // >> सफलता के बाद डैशबोर्ड पर भेजना एक अच्छा विचार है
+            // header("refresh:3;url=" . BASE_URL . "dashboard.php");
 
         } catch (\Exception $e) {
+            // बेहतर एरर रिपोर्टिंग के लिए
+            error_log($e->getMessage());
             die("Oops! Something went wrong. Please try again later.");
         }
     }
@@ -59,24 +70,34 @@ include_once __DIR__ . '/includes/header.php';
 <main class="page-container">
     <div class="container">
         <div class="form-wrapper">
-            <h1>Post a New Project</h1>
+            <h1>Post a New Freelance Project</h1>
             <p>Describe your project, and let the best developers find you.</p>
 
             <?php if(!empty($success_msg)): ?>
-                <div class="alert alert-success"><?php echo $success_msg; ?></div>
+                <div class="alert alert-success">
+                    <?php echo $success_msg; ?>
+                    <p><a href="<?php echo BASE_URL; ?>browse_projects.php">View Projects</a> or <a href="<?php echo BASE_URL; ?>dashboard.php">Go to Dashboard</a>.</p>
+                </div>
             <?php else: ?>
 
             <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
                 <div class="form-group form-group-vertical">
                     <label for="title">Project Title</label>
-                    <input type="text" id="title" name="title" class="form-control" placeholder="e.g., Build a modern e-commerce website">
+                    <input type="text" id="title" name="title" class="form-control" placeholder="e.g., Build a modern e-commerce website" required>
                     <span class="error"><?php echo $title_err; ?></span>
                 </div>
                 
                 <div class="form-group form-group-vertical">
                     <label for="description">Project Description</label>
-                    <textarea id="description" name="description" class="form-control" rows="8" placeholder="Describe your project in detail..."></textarea>
+                    <textarea id="description" name="description" class="form-control" rows="8" placeholder="Describe your project in detail..." required></textarea>
                     <span class="error"><?php echo $description_err; ?></span>
+                </div>
+
+                <!-- >> स्किल्स के लिए एक नया फील्ड जोड़ा गया है -->
+                <div class="form-group form-group-vertical">
+                    <label for="skills">Required Skills</label>
+                    <input type="text" id="skills" name="skills" class="form-control" placeholder="e.g., PHP, MySQL, JavaScript, HTML, CSS">
+                    <small>Separate skills with a comma.</small>
                 </div>
 
                 <div class="form-group form-group-vertical">

@@ -1,10 +1,10 @@
 <?php
-// सेशन शुरू करें, यह हमेशा PHP कोड के टॉप पर होना चाहिए
-session_start();
-
 // bootstrap.php को include करें ताकि BASE_URL मिल सके
-// यह इसलिए जरूरी है क्योंकि हम header() में इसका इस्तेमाल कर रहे हैं
+// यह सबसे पहले होना चाहिए ताकि कोई भी आउटपुट भेजने से पहले हेडर सेट हो सकें
 require_once __DIR__ . '/../bootstrap.php';
+
+// सेशन शुरू करें
+session_start();
 
 // अगर यूजर पहले से ही लॉग-इन है, तो उसे डैशबोर्ड पर भेज दें
 if(isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true){
@@ -15,38 +15,51 @@ if(isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true){
 // User मॉडल को इम्पोर्ट करें
 use App\Models\User;
 
+// वेरिएबल्स को इनिशियलाइज़ करें
+$email = "";
 $email_err = $password_err = $login_err = "";
 
 // जब फॉर्म सबमिट हो
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
-    $email = trim($_POST['email']);
-    $password = $_POST['password'];
-
-    if (empty($email)) {
+    // ईमेल को वैलिडेट करें
+    if (empty(trim($_POST['email']))) {
         $email_err = "Please enter your email.";
-    }
-    if (empty($password)) {
-        $password_err = "Please enter your password.";
+    } else {
+        $email = trim($_POST['email']);
     }
 
+    // पासवर्ड को वैलिडेट करें
+    if (empty($_POST['password'])) {
+        $password_err = "Please enter your password.";
+    } else {
+        $password = $_POST['password'];
+    }
+
+    // अगर कोई वैलिडेशन एरर नहीं है
     if (empty($email_err) && empty($password_err)) {
+        // डेटाबेस से यूजर को ढूंढें
         $user = User::where('email', $email)->first();
 
+        // अगर यूजर मौजूद है और पासवर्ड सही है
         if ($user && password_verify($password, $user->password)) {
-            // पासवर्ड सही है, तो सेशन वेरिएबल्स सेट करें
-            // यह सुनिश्चित करता है कि पुराना सेशन डेटा साफ हो जाए (Session Fixation Attack से बचाव)
+            
+            // >> यहाँ मुख्य सुधार है <<
+            // सेशन को रीजेनरेट करें (सुरक्षा के लिए)
             session_regenerate_id(true);
 
+            // सेशन वेरिएबल्स को सही और सुसंगत नामों से सेट करें
             $_SESSION["loggedin"] = true;
-            $_SESSION["id"] = $user->id;
+            $_SESSION["user_id"] = $user->id; // <-- 'user_id' का उपयोग करें, 'id' का नहीं
             $_SESSION["username"] = $user->username;
-            $_SESSION["user_type"] = $user->user_type;
+            $_SESSION["user_type"] = $user->user_type; // <-- यह सुनिश्चित करें कि आपके users टेबल में यह कॉलम है
             
             // यूजर को डैशबोर्ड पर भेजें
             header("location: " . BASE_URL . "dashboard.php");
             exit(); // रीडायरेक्ट के बाद हमेशा exit() का उपयोग करें
+
         } else {
+            // अगर यूजर नहीं मिला या पासवर्ड गलत है
             $login_err = "Invalid email or password.";
         }
     }
@@ -79,13 +92,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             
             <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
                 <div class="form-group">
-                    <label>Email</label>
-                    <input type="email" name="email" class="form-control">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" class="form-control" value="<?php echo htmlspecialchars($email); ?>">
                     <span class="error"><?php echo $email_err; ?></span>
                 </div>    
                 <div class="form-group">
-                    <label>Password</label>
-                    <input type="password" name="password" class="form-control">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" name="password" class="form-control">
                     <span class="error"><?php echo $password_err; ?></span>
                 </div>
                 
