@@ -82,7 +82,8 @@ a {
     font-weight: 600;
     display: inline-block;
     text-align: center;
-    transition: all 0.3s ease;
+    /* IMPROVEMENT: Transition specific properties for better performance */
+    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .btn-primary {
@@ -232,7 +233,7 @@ a {
     text-align: center;
     border-radius: 8px;
     font-weight: 600;
-    transition: all 0.3s ease;
+    transition: transform 0.3s ease, box-shadow 0.3s ease, color 0.3s ease, border-color 0.3s ease;
 }
 
 .category-card:hover {
@@ -361,14 +362,13 @@ a {
 
 .form-group .form-control {
     flex-basis: 70%;
-    width: 70%;
     background-color: #F9FAFB;
     border: 1px solid #E5E7EB;
     padding: 1rem;
     font-size: 1rem;
     color: var(--text-dark);
-    transition: all 0.3s ease;
-    border-radius: 8px; /* Added border-radius */
+    transition: border-color 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease;
+    border-radius: 8px;
 }
 
 .form-group .form-control:focus {
@@ -416,7 +416,7 @@ a {
     display: block;
     margin-top: 0.25rem;
     width: 100%;
-    text-align: right; /* Aligned error to the right */
+    text-align: right;
 }
 
 .form-footer-text {
@@ -553,7 +553,7 @@ a.project-card-link {
     border: 1px solid var(--border-color);
     padding: 1.5rem;
     border-radius: 12px;
-    transition: all 0.3s ease;
+    transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
 }
 
 .project-card:hover {
@@ -577,6 +577,7 @@ a.project-card-link {
 }
 .project-title a {
     color: var(--text-dark);
+    transition: color 0.3s ease;
 }
 .project-title a:hover {
     color: var(--primary-color);
@@ -703,7 +704,6 @@ a.developer-name-link:hover .developer-name {
     color: var(--primary-color);
     text-decoration: underline;
 }
-
 
 .bid-amount {
     font-weight: 700;
@@ -899,7 +899,7 @@ a.developer-name-link:hover .developer-name {
 }
 
 /**************************************************/
-/* --- यहाँ से नया कोड जोड़ा जाएगा है --- */
+/* --- Additional & New Styles --- */
 /**************************************************/
 .text-success { 
     color: #065F46; 
@@ -929,6 +929,7 @@ a.developer-name-link:hover .developer-name {
 .star-rating label:hover ~ label { 
     color: #ffcc00; 
 }
+
 .avatar-upload-wrapper {
     display: flex;
     align-items: center;
@@ -940,6 +941,7 @@ a.developer-name-link:hover .developer-name {
     border-radius: 50%;
     object-fit: cover;
 }
+
 /* --- Browse Developers Page Styling --- */
 .developer-grid {
     display: grid;
@@ -958,7 +960,7 @@ a.developer-card-link {
     padding: 1.5rem;
     border-radius: 12px;
     text-align: center;
-    transition: all 0.3s ease;
+    transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
 }
 
 .developer-card:hover {
@@ -984,7 +986,7 @@ a.developer-card-link {
 .developer-card .developer-tagline {
     color: var(--text-light);
     font-size: 0.9rem;
-    min-height: 40px; /* ताकि कार्ड्स की ऊंचाई एक जैसी रहे */
+    min-height: 40px;
 }
 .developer-tagline.text-muted {
     font-style: italic;
@@ -996,12 +998,12 @@ a.developer-card-link {
     justify-content: center;
     flex-wrap: wrap;
     gap: 0.5rem;
-    min-height: 30px; /* ऊंचाई को एक जैसा रखने के लिए */
+    min-height: 30px;
 }
 
 .skill-tag-sm {
-    background-color: #E0E7FF; /* हल्का नीला/बैंगनी */
-    color: #4338CA; /* गहरा नीला/बैंगनी */
+    background-color: #E0E7FF;
+    color: #4338CA;
     padding: 0.25rem 0.75rem;
     border-radius: 15px;
     font-size: 0.75rem;
@@ -1032,6 +1034,7 @@ a.developer-card-link {
     border: 1px solid var(--border-color);
     border-radius: 8px;
     color: var(--text-dark);
+    transition: border-color 0.3s ease;
 }
 
 .pagination-links li.active span {
@@ -1056,11 +1059,12 @@ a.developer-card-link {
 .profile-message-button .btn-primary {
     width: 100%;
 }
+
 /* --- Messages Page Layout --- */
 .messages-layout {
     display: grid;
-    grid-template-columns: 350px 1fr; /* बाईं तरफ 350px, बाकी जगह दाईं तरफ */
-    height: 80vh; /* ऊंचाई को व्यूपोर्ट के 80% पर सेट करें */
+    grid-template-columns: 350px 1fr;
+    height: 80vh;
     background-color: #ffffff;
     border: 1px solid var(--border-color);
     border-radius: 12px;
@@ -1079,7 +1083,7 @@ a.developer-card-link {
 }
 .conversations-list ul {
     list-style: none;
-    overflow-y: auto; /* स्क्रॉलिंग के लिए */
+    overflow-y: auto;
 }
 .conversation-item {
     display: flex;
@@ -1088,6 +1092,7 @@ a.developer-card-link {
     gap: 1rem;
     cursor: pointer;
     border-bottom: 1px solid var(--border-color);
+    transition: background-color 0.2s ease;
 }
 .conversation-item:hover {
     background-color: var(--background-grey);
@@ -1125,7 +1130,7 @@ a.developer-card-link {
     padding: 1.5rem;
     overflow-y: auto;
     display: flex;
-    flex-direction: column-reverse; /* नए मैसेज नीचे आएं */
+    flex-direction: column-reverse;
 }
 .message-bubble {
     max-width: 70%;
@@ -1171,28 +1176,7 @@ a.developer-card-link {
     height: 100%;
     color: var(--text-light);
 }
-/* --- Notification Dropdown Styling --- */
-.notification-dropdown { position: relative; }
-#notification-bell { position: relative; font-size: 1.5rem; }
-.notification-count {
-    position: absolute; top: -5px; right: -8px;
-    background-color: #EF4444; color: white;
-    border-radius: 50%; width: 18px; height: 18px;
-    font-size: 12px; line-height: 18px; text-align: center;
-}
-.dropdown-content {
-    display: none; position: absolute; top: 120%; right: 0;
-    background-color: white; min-width: 300px;
-    box-shadow: 0 8px 16px rgba(0,0,0,0.2);
-    z-index: 1; border-radius: 8px;
-}
-.notification-dropdown:hover .dropdown-content { display: block; }
-.dropdown-header { padding: 1rem; font-weight: bold; border-bottom: 1px solid #eee; }
-#notification-list { list-style: none; max-height: 400px; overflow-y: auto; }
-#notification-list li { padding: 1rem; border-bottom: 1px solid #eee; }
-#notification-list li a { color: var(--text-dark); }
-#notification-list li:last-child { border-bottom: none; }
-#notification-list li.unread { background-color: var(--secondary-color); }
+
 /* =================================
    Dropdown Menu Styles
    ================================= */
@@ -1205,40 +1189,49 @@ a.developer-card-link {
 
 /* ड्रॉपडाउन मेनू (जो छिपा रहता है) */
 .dropdown-menu {
-    display: none; /* डिफ़ॉल्ट रूप से छिपा हुआ */
+    display: none;
     position: absolute;
-    right: 0; /* इसे दाईं ओर अलाइन करें */
-    background-color: #ffffff; /* सफेद बैकग्राउंड */
-    min-width: 200px; /* न्यूनतम चौड़ाई */
-    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.15); /* थोड़ा शैडो */
-    z-index: 100; /* यह सुनिश्चित करता है कि यह दूसरे कंटेंट के ऊपर आए */
-    list-style: none; /* बुलेट पॉइंट्स हटाएं */
+    right: 0;
+    background-color: #ffffff;
+    min-width: 200px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.15);
+    z-index: 101; /* FIX: Ensure it's above the sticky header */
+    list-style: none;
     padding: 10px 0;
     border-radius: 8px;
-    margin-top: 10px; /* बटन से थोड़ी दूरी */
+    margin-top: 10px;
 }
 
-/* जब ड्रॉपडाउन दिखाना हो */
+/* जब ड्रॉपडाउन दिखाना हो (controlled by JavaScript via .show class) */
 .dropdown-menu.show {
     display: block;
 }
 
 /* ड्रॉपडाउन के अंदर के लिंक्स */
 .dropdown-menu li a {
-    color: #333; /* टेक्स्ट का रंग */
+    color: #333;
     padding: 12px 20px;
     text-decoration: none;
-    display: block; /* पूरे एरिया को क्लिक करने योग्य बनाएं */
+    display: block;
     text-align: left;
     white-space: nowrap;
+    transition: background-color 0.2s ease;
 }
 
-/* लिंक पर होवर करने पर स्टाइल */
 .dropdown-menu li a:hover {
     background-color: #f5f5f5;
 }
 
-/* नोटिफिकेशन ड्रॉपडाउन के लिए भी यही स्टाइल काम करेगा */
+/* --- Notification Dropdown Styling --- */
+.notification-dropdown { position: relative; }
+#notification-bell { position: relative; font-size: 1.5rem; cursor: pointer; }
+.notification-count {
+    position: absolute; top: -5px; right: -8px;
+    background-color: #EF4444; color: white;
+    border-radius: 50%; width: 18px; height: 18px;
+    font-size: 12px; line-height: 18px; text-align: center;
+    pointer-events: none; /* So it doesn't interfere with the bell click */
+}
 .notification-dropdown .dropdown-content {
     display: none;
     position: absolute;
@@ -1246,10 +1239,90 @@ a.developer-card-link {
     background-color: #ffffff;
     min-width: 300px;
     box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.15);
-    z-index: 100;
+    z-index: 101; /* FIX: Ensure it's above the sticky header */
     border-radius: 8px;
     margin-top: 10px;
 }
+
+/* FIX: This rule is removed to prevent hover from triggering the dropdown.
+   .notification-dropdown:hover .dropdown-content { display: block; } */
+
 .notification-dropdown .dropdown-content.show {
     display: block;
+}
+
+.dropdown-header { padding: 1rem; font-weight: bold; border-bottom: 1px solid #eee; }
+#notification-list { list-style: none; max-height: 400px; overflow-y: auto; padding: 0; }
+#notification-list li { border-bottom: 1px solid #eee; }
+#notification-list li a { display: block; padding: 1rem; color: var(--text-dark); transition: background-color 0.2s ease; }
+#notification-list li a:hover { background-color: #f5f5f5; }
+#notification-list li:last-child { border-bottom: none; }
+#notification-list li.unread { background-color: var(--secondary-color); }
+/* =================================
+   Product Grid Styles
+   ================================= */
+
+.product-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); /* Responsive grid */
+    gap: 30px; /* ग्रिड के बीच में गैप */
+    margin-top: 2rem;
+}
+
+.product-card {
+    border: 1px solid #e9ecef;
+    border-radius: 10px;
+    overflow: hidden; /* कोनों को गोल रखने के लिए */
+    transition: box-shadow 0.3s ease, transform 0.3s ease;
+    text-decoration: none;
+    color: inherit;
+    display: flex;
+    flex-direction: column;
+}
+
+.product-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+}
+
+.product-image-container {
+    width: 100%;
+    height: 200px;
+    background-color: #f8f9fa;
+}
+
+.product-preview-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* इमेज को बिना बिगाड़े कंटेनर में फिट करें */
+}
+
+.product-card-content {
+    padding: 15px;
+    flex-grow: 1; /* यह सुनिश्चित करता है कि कार्ड की ऊंचाई बराबर हो */
+}
+
+.product-name {
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin: 0 0 5px 0;
+}
+
+.product-seller {
+    font-size: 0.9rem;
+    color: #6c757d;
+}
+
+.product-card-footer {
+    padding: 15px;
+    border-top: 1px solid #e9ecef;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.product-price {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: #333;
 }

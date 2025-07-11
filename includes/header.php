@@ -15,6 +15,15 @@ if (session_status() == PHP_SESSION_NONE) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>DevDost - The Ultimate Developer Hub</title>
+
+    <!-- ======================================================== -->
+    <!-- >> यहाँ सुधार किया गया है << -->
+    <!-- BASE_URL को एक ग्लोबल जावास्क्रिप्ट वेरिएबल के रूप में सेट करें -->
+    <script>
+        const BASE_URL = "<?php echo BASE_URL; ?>";
+    </script>
+    <!-- ======================================================== -->
+
     <!-- CSS File Link with BASE_URL -->
     <link rel="stylesheet" href="<?php echo BASE_URL; ?>assets/css/style.css">
 </head>
@@ -36,12 +45,11 @@ if (session_status() == PHP_SESSION_NONE) {
                 </a>
                 
                 <ul class="main-menu">
-                    <!-- =================== मेनू आइटम्स अंग्रेजी में =================== -->
+                    <!-- मेनू आइटम्स अंग्रेजी में -->
                     <li><a href="<?php echo BASE_URL; ?>browse_projects.php">Freelance Projects</a></li>
                     <li><a href="<?php echo BASE_URL; ?>browse_jobs.php">Jobs</a></li>
                     <li><a href="<?php echo BASE_URL; ?>software_marketplace.php">Marketplace</a></li>
                     <li><a href="<?php echo BASE_URL; ?>browse-developers.php">Find Developers</a></li>
-                    <!-- ======================================================== -->
 
                     <?php if (isset($_SESSION["user_id"])): ?>
                         <!-- लॉग-इन यूजर के लिए -->
@@ -89,7 +97,6 @@ if (session_status() == PHP_SESSION_NONE) {
     <script>
     // यह छोटा सा जावास्क्रिप्ट ड्रॉपडाउन को काम करने के लिए है
     document.addEventListener('DOMContentLoaded', function() {
-        // पोस्ट ड्रॉपडाउन
         const postDropdown = document.querySelector('.dropdown .dropdown-toggle');
         if (postDropdown) {
             postDropdown.addEventListener('click', function(e) {
@@ -98,7 +105,6 @@ if (session_status() == PHP_SESSION_NONE) {
             });
         }
 
-        // नोटिफिकेशन ड्रॉपडाउन
         const notificationBell = document.getElementById('notification-bell');
         if(notificationBell) {
             notificationBell.addEventListener('click', function(e) {
@@ -107,7 +113,6 @@ if (session_status() == PHP_SESSION_NONE) {
             });
         }
 
-        // कहीं और क्लिक करने पर ड्रॉपडाउन बंद करें
         window.addEventListener('click', function(e) {
             if (!e.target.closest('.dropdown') && !e.target.closest('.notification-dropdown')) {
                 document.querySelectorAll('.dropdown-menu, .dropdown-content').forEach(function(menu) {
@@ -117,3 +122,5 @@ if (session_status() == PHP_SESSION_NONE) {
         });
     });
     </script>
+</body>
+</html>
