@@ -1,0 +1,12 @@
+# Composer dependencies
+/vendor/
+
+# Uploaded files
+/uploads/
+
+# Configuration with sensitive data
+config.php
+db_connect.php
+
+# Any other file with passwords or secrets
+.env
